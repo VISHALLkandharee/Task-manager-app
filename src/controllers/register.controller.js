@@ -197,8 +197,8 @@ async function updateUser(req, res) {
 }
 
 async function updateProfilePicture(req, res) {
-  console.log("file:", req.file);
-  console.log("user:", req.user);
+  // console.log("file:", req.file);
+  // console.log("user:", req.user);
 
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
@@ -223,6 +223,8 @@ async function updateProfilePicture(req, res) {
     if (!updatedAvatar) {
       return res.status(500).json({ message: "Avatar file is required" });
     }
+
+    user.avatar = updatedAvatar.url
 
     await user.save();
 
