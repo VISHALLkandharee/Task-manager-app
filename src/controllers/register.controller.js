@@ -211,7 +211,7 @@ async function updateProfilePicture(req,res){
       return res.status(400).json({message: "User not found"});
     }
     
-    res.json({file: req.file});
+    res.json({file: req.file, message: "uploaded ok"});
 
 
   } catch (error) {
