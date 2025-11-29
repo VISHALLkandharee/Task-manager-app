@@ -212,7 +212,23 @@ async function updateProfilePicture(req, res) {
       return res.status(400).json({ message: "User not found" });
     }
 
-    res.json({ file: req.file, message: "uploaded ok" });
+    const avatarPath = req.file?.path;
+
+    if (!avatarPath) {
+      return res.status(400).json({ message: "Avatar upload failed" });
+    }
+
+    const updatedAvatar = await uploadToCloudinary(avatarPath);
+
+    if (!updatedAvatar) {
+      return res.status(500).json({ message: "Avatar file is required" });
+    }
+
+    await user.save();
+
+    res
+      .status(201)
+      .json({ updatedUser: user, message: "profile picture updated!" });
   } catch (error) {
     return res
       .status(500)
