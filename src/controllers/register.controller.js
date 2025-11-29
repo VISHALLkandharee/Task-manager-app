@@ -71,11 +71,9 @@ const RegisterUser = async (req, res) => {
       .status(201)
       .json({ user: updatedUser, message: "User registered successfully WoW" });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        message: "Registration failed due to server error" + error.message,
-      });
+    return res.status(500).json({
+      message: "Registration failed due to server error" + error.message,
+    });
   }
 };
 
@@ -198,25 +196,35 @@ async function updateUser(req, res) {
   }
 }
 
-async function updateProfilePicture(req,res){
-  if(!req.file){
-    return res.status(400).json({message: "No file uploaded"});
+async function updateProfilePicture(req, res) {
+  console.log("file:", req.file);
+  console.log("user:", req.user);
+
+  if (!req.file) {
+    return res.status(400).json({ message: "No file uploaded" });
   }
 
   try {
     const userId = req.user.userId;
     const user = await User.findById(userId);
 
-    if(!user){
-      return res.status(400).json({message: "User not found"});
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
     }
-    
-    res.json({file: req.file, message: "uploaded ok"});
 
-
+    res.json({ file: req.file, message: "uploaded ok" });
   } catch (error) {
-    return res.status(500).json({message: "Failed to update profile picture"+ error.message});
+    return res
+      .status(500)
+      .json({ message: "Failed to update profile picture" + error.message });
   }
 }
 
-export { RegisterUser, loginUser, getProfile, logoutUser, updateUser, updateProfilePicture };
+export {
+  RegisterUser,
+  loginUser,
+  getProfile,
+  logoutUser,
+  updateUser,
+  updateProfilePicture,
+};
