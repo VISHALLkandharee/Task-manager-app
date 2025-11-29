@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import { getProfile, RegisterUser } from '../controllers/register.controller.js';
-import { loginUser, logoutUser, updateUser } from '../controllers/register.controller.js';
+import { loginUser, logoutUser, updateUser,updateProfilePicture } from '../controllers/register.controller.js';
 
 // middleware for secure routes
 import verifyJwt from '../middlewares/PrivateAuthorization.js';
@@ -15,6 +15,7 @@ router.get('/logout', verifyJwt, logoutUser)
 
 router.get('/profile', verifyJwt, getProfile)
 router.patch('/update-profile', verifyJwt, updateUser)
+router.patch('/update-profile-picture', verifyJwt, upload.single('avatar'), updateProfilePicture)
 
 
 export default router;

@@ -198,4 +198,25 @@ async function updateUser(req, res) {
   }
 }
 
-export { RegisterUser, loginUser, getProfile, logoutUser, updateUser };
+async function updateProfilePicture(req,res){
+  if(!req.file){
+    return res.status(400).json({message: "No file uploaded"});
+  }
+
+  try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId);
+
+    if(!user){
+      return res.status(400).json({message: "User not found"});
+    }
+    
+    res.json({file: req.file});
+
+
+  } catch (error) {
+    return res.status(500).json({message: "Failed to update profile picture"+ error.message});
+  }
+}
+
+export { RegisterUser, loginUser, getProfile, logoutUser, updateUser, updateProfilePicture };
